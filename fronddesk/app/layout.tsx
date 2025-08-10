@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Inter({
+// Use system fonts for Railway deployment to avoid Google Fonts fetch issues
+const geistSans = {
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  className: "font-sans"
+};
 
-const geistMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistMono = {
+  variable: "--font-geist-mono", 
+  className: "font-mono"
+};
 
 export const metadata: Metadata = {
   title: "Create Next App",

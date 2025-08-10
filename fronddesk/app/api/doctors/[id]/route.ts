@@ -39,11 +39,12 @@ let doctorsData = [
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const updatedDoctor = await request.json()
-    const doctorIndex = doctorsData.findIndex(d => d.id === params.id)
+    const doctorIndex = doctorsData.findIndex(d => d.id === id)
     
     if (doctorIndex === -1) {
       return NextResponse.json(
@@ -65,10 +66,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const doctorIndex = doctorsData.findIndex(d => d.id === params.id)
+    const doctorIndex = doctorsData.findIndex(d => d.id === id)
     
     if (doctorIndex === -1) {
       return NextResponse.json(
