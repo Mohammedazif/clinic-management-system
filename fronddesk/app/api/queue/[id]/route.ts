@@ -26,11 +26,12 @@ let queueData = [
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const { status } = await request.json()
-    const patientIndex = queueData.findIndex(p => p.id === params.id)
+    const patientIndex = queueData.findIndex(p => p.id === id)
     
     if (patientIndex === -1) {
       return NextResponse.json(
