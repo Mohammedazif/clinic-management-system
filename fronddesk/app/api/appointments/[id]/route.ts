@@ -3,11 +3,12 @@ import { db } from '@/lib/simple-db'
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const updates = await request.json()
-    const updatedAppointment = db.updateAppointment(params.id, updates)
+    const updatedAppointment = db.updateAppointment(id, updates)
     
     if (!updatedAppointment) {
       return NextResponse.json(
@@ -28,10 +29,11 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const deletedAppointment = db.deleteAppointment(params.id)
+    const deletedAppointment = db.deleteAppointment(id)
     
     if (!deletedAppointment) {
       return NextResponse.json(
