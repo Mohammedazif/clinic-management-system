@@ -1,4 +1,4 @@
-# 🏥 Clinic Management System - Frontend
+# 🏥 Clinic Management System 
 
 A modern, responsive Next.js frontend application for comprehensive clinic management with intelligent automation, real-time updates, and professional medical workflow optimization.
 
@@ -339,17 +339,3 @@ npm install
 3. Follow the existing code style
 4. Test your changes thoroughly
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-**Built with ❤️ for modern healthcare management**
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
