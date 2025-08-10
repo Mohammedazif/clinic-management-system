@@ -39,12 +39,16 @@ COPY --from=builder /app/package*.json ./
 # Change ownership to non-root user
 USER nestjs
 
-# Expose port
+# Expose port (Railway will assign PORT env variable)
 EXPOSE 3001
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3001/api/health || exit 1
+# Set environment variables for Railway
+ENV PORT=3001
+ENV HOST=0.0.0.0
+
+# Health check (remove curl dependency for Railway)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:$PORT/api/health || exit 1
 
 # Start the application
 CMD ["npm", "run", "start:prod"]

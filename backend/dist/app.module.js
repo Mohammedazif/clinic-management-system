@@ -22,6 +22,7 @@ const users_module_1 = require("./users/users.module");
 const doctors_module_1 = require("./doctors/doctors.module");
 const appointments_module_1 = require("./appointments/appointments.module");
 const queue_module_1 = require("./queue/queue.module");
+const health_controller_1 = require("./health/health.controller");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -61,6 +62,7 @@ exports.AppModule = AppModule = __decorate([
             appointments_module_1.AppointmentsModule,
             queue_module_1.QueueModule,
         ],
+        controllers: [health_controller_1.HealthController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

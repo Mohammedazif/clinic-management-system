@@ -15,9 +15,10 @@ async function bootstrap() {
     }));
     app.setGlobalPrefix('api');
     const port = process.env.PORT || 3001;
-    await app.listen(port);
-    console.log(`🚀 Clinic Backend Server running on http://localhost:${port}`);
-    console.log(`📊 Database: ${process.env.DB_DATABASE}`);
+    const host = process.env.HOST || '0.0.0.0';
+    await app.listen(port, host);
+    console.log(`🚀 Clinic Backend Server running on http://${host}:${port}`);
+    console.log(`📊 Database: ${process.env.DATABASE_NAME || process.env.DB_DATABASE}`);
     console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
 }
 bootstrap();

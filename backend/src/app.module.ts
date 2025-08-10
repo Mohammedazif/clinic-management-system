@@ -18,6 +18,9 @@ import { DoctorsModule } from './doctors/doctors.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { QueueModule } from './queue/queue.module';
 
+// Controllers
+import { HealthController } from './health/health.controller';
+
 @Module({
   imports: [
     // Environment configuration
@@ -57,6 +60,7 @@ import { QueueModule } from './queue/queue.module';
     AppointmentsModule,
     QueueModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
