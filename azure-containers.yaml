@@ -1,0 +1,64 @@
+apiVersion: 2019-12-01
+location: eastus
+name: clinic-containers
+properties:
+  containers:
+  - name: clinic-backend
+    properties:
+      image: clinicregistry.azurecr.io/clinic-backend:latest
+      ports:
+      - port: 3001
+        protocol: TCP
+      environmentVariables:
+      - name: NODE_ENV
+        value: production
+      - name: DATABASE_HOST
+        value: clinic-mysql-server.mysql.database.azure.com
+      - name: DATABASE_PORT
+        value: "3306"
+      - name: DATABASE_USERNAME
+        value: clinicadmin
+      - name: DATABASE_PASSWORD
+        secureValue: YourSecurePassword123!
+      - name: DATABASE_NAME
+        value: clinic_db
+      - name: JWT_SECRET
+        secureValue: azure-clinic-jwt-secret-production-2025
+      - name: JWT_REFRESH_SECRET
+        secureValue: azure-clinic-refresh-secret-production-2025
+      - name: FRONTEND_URL
+        value: https://clinic-frontend-unique.eastus.azurecontainer.io
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 1.5
+  - name: clinic-frontend
+    properties:
+      image: clinicregistry.azurecr.io/clinic-frontend:latest
+      ports:
+      - port: 3000
+        protocol: TCP
+      environmentVariables:
+      - name: NODE_ENV
+        value: production
+      - name: NEXT_PUBLIC_API_URL
+        value: https://clinic-backend-unique.eastus.azurecontainer.io:3001/api
+      - name: NEXTAUTH_URL
+        value: https://clinic-frontend-unique.eastus.azurecontainer.io
+      - name: NEXTAUTH_SECRET
+        secureValue: azure-clinic-nextauth-secret-production-2025
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 1.5
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 3001
+    dnsNameLabel: clinic-app-unique
+  restartPolicy: Always
+type: Microsoft.ContainerInstance/containerGroups
