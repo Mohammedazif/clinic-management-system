@@ -1,0 +1,50 @@
+import { Repository } from 'typeorm';
+import { QueueItem, QueueStatus, QueuePriority } from '../entities/queue-item.entity';
+import { Doctor } from '../entities/doctor.entity';
+import { Appointment } from '../entities/appointment.entity';
+import { CreateQueueItemDto } from './dto/create-queue-item.dto';
+import { UpdateQueueItemDto } from './dto/update-queue-item.dto';
+import { DoctorsService } from '../doctors/doctors.service';
+export declare class QueueService {
+    private queueRepository;
+    private doctorRepository;
+    private appointmentRepository;
+    private doctorsService;
+    constructor(queueRepository: Repository<QueueItem>, doctorRepository: Repository<Doctor>, appointmentRepository: Repository<Appointment>, doctorsService: DoctorsService);
+    create(createQueueItemDto: CreateQueueItemDto): Promise<QueueItem>;
+    findAll(filters?: {
+        status?: QueueStatus;
+        doctorId?: string;
+        priority?: QueuePriority;
+        activeOnly?: boolean;
+    }): Promise<QueueItem[]>;
+    findOne(id: string): Promise<QueueItem>;
+    findByQueueNumber(queueNumber: number): Promise<QueueItem>;
+    getActiveQueue(): Promise<QueueItem[]>;
+    getWaitingQueue(): Promise<QueueItem[]>;
+    update(id: string, updateQueueItemDto: UpdateQueueItemDto): Promise<QueueItem>;
+    updateStatus(id: string, status: QueueStatus): Promise<QueueItem>;
+    callNext(doctorId?: string): Promise<QueueItem | null>;
+    assignDoctor(id: string, doctorId: string): Promise<QueueItem>;
+    remove(id: string): Promise<void>;
+    getQueueStats(): Promise<{
+        totalPatients: number;
+        todayAppointments: number;
+        queueLength: number;
+        completedToday: number;
+        completed: number;
+        averageWaitTime: number;
+        urgentPatients: number;
+        escalatedPatients: number;
+        availableDoctors: number;
+        busyDoctors: number;
+        totalDoctors: number;
+        total: number;
+        waiting: number;
+        called: number;
+        inConsultation: number;
+        cancelled: number;
+    }>;
+    private getDoctorStats;
+    private generateQueueNumber;
+}
