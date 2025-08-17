@@ -2,6 +2,13 @@
 
 A modern, responsive Next.js frontend application for comprehensive clinic management with intelligent automation, real-time updates, and professional medical workflow optimization.
 
+## 🗂️ Repository Overview
+
+This is a monorepo containing both the frontend and backend:
+
+- `fronddesk/` — Next.js 15 frontend (TypeScript, Tailwind)
+- `backend/` — NestJS 11 backend (TypeORM + MySQL, JWT)
+
 ## ✨ Key Features
 
 ### 🎯 Dashboard & Analytics
@@ -78,6 +85,68 @@ A modern, responsive Next.js frontend application for comprehensive clinic manag
 - **Real-time Updates** - Automatic data refresh
 - **Error Handling** - Comprehensive error management
 - **Loading States** - User feedback during operations
+
+## 🧰 Backend (NestJS) Overview
+
+The backend lives in `backend/` and provides REST APIs, authentication, and MySQL persistence.
+
+### Tech Stack
+- NestJS 11, TypeScript
+- TypeORM + MySQL (`mysql2` driver)
+- JWT auth (`@nestjs/jwt`, `passport`, `passport-jwt`)
+- Validation (`class-validator`, `class-transformer`)
+
+### Common Scripts (in `backend/package.json`)
+```bash
+npm run start:dev     # Watch mode
+npm run build         # Compile to dist
+npm run start:prod    # Run compiled server (node dist/main)
+npm run migration:run # Run TypeORM migrations (if configured)
+npm run seed          # Seed initial data (if applicable)
+```
+
+### Default Ports and URLs
+- Backend server: `http://localhost:3001`
+- API base path: `/api` (e.g., `GET /api/health`)
+- CORS/Frontend URL (example): `http://localhost:3000`
+
+### Environment Variables
+Set via your shell or `.env` (and in CI/CD). In Compose, see `docker-compose.yml` `backend:` service.
+
+Minimum required (examples):
+```env
+NODE_ENV=development
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_USERNAME=clinic_user
+DATABASE_PASSWORD=clinic_password
+DATABASE_NAME=clinic_db
+
+# Auth
+JWT_SECRET=your-super-secret-jwt-key-here
+JWT_REFRESH_SECRET=your-super-secret-refresh-key-here
+
+# CORS
+FRONTEND_URL=http://localhost:3000
+```
+
+### Running Backend Locally (without Docker)
+1. Install deps
+   ```bash
+   cd backend
+   npm install
+   ```
+2. Ensure MySQL is running and env vars are set (see above)
+3. Start dev server
+   ```bash
+   npm run start:dev
+   ```
+4. Health check: `curl http://localhost:3001/api/health`
+
+### Database
+- Local development DB can be provided by Docker Compose (`mysql` service) or your own MySQL.
+- The compose setup also mounts `./backend/src/database/init.sql` for initial schema.
+- For TypeORM migrations and seeds, use the scripts in `backend/package.json`.
 
 ## 📱 Pages & Components
 
@@ -222,36 +291,6 @@ fronddesk/
 - **Progressive Disclosure** - Step-by-step workflows
 - **Real-time Updates** - Live data synchronization
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. **Connect Repository**: Link GitHub repo to Vercel
-2. **Configure Build Settings**:
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
-   - Root Directory: `fronddesk`
-3. **Set Environment Variables**: Add production environment variables
-4. **Deploy**: Automatic deployment on push
-
-### Railway
-1. **Create Service**: Add frontend service to Railway project
-2. **Configure**:
-   - Root Directory: `/fronddesk`
-   - Build Command: `npm run build`
-   - Start Command: `npm start`
-3. **Environment Variables**: Set production API URL
-4. **Deploy**: Automatic build and deployment
-
-### Manual Deployment
-1. **Build Application**:
-   ```bash
-   npm run build
-   ```
-
-2. **Start Production Server**:
-   ```bash
-   npm start
-   ```
 
 ## 🔍 Key Features Deep Dive
 
@@ -331,11 +370,3 @@ npm install
 - **React Documentation**: [react.dev](https://react.dev)
 - **Tailwind CSS**: [tailwindcss.com](https://tailwindcss.com)
 - **Radix UI**: [radix-ui.com](https://radix-ui.com)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Follow the existing code style
-4. Test your changes thoroughly
-5. Submit a pull request
